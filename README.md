@@ -1,14 +1,14 @@
 # Baby Kick Tracker App
-##Overview
+## Overview
 The Baby Kick Tracker app is designed to help expectant mothers easily track and monitor their baby's movements. By recording and comparing baby kicks, mothers can ensure their baby is growing healthily. This app provides a simple, user-friendly interface to log kicks and view historical data to compare patterns over time.
 
 ## Features
--Track Baby Kicks: Log each baby kick with a single tap.
--View Kick History: Access and compare kick data from previous weeks.
--Data Visualization: Graphs and charts to visualize kick patterns over time.
--Notifications: Reminders to track kicks throughout the day.
--Secure Storage: All data is securely stored using Firestore.
--Technologies Used
+- Track Baby Kicks: Log each baby kick with a single tap.
+- View Kick History: Access and compare kick data from previous weeks.
+- Data Visualization: Graphs and charts to visualize kick patterns over time.
+- Notifications: Reminders to track kicks throughout the day.
+- Secure Storage: All data is securely stored using Firestore.
+- Technologies Used
   React: Front-end framework for building the user interface.
   Firestore: Cloud database for storing and retrieving kick data.
 
