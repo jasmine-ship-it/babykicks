@@ -1,6 +1,6 @@
-import logo from "./logo.svg";
+import logo from "../../logo.svg";
 import "./App.css";
-import SignIn from "../src/Components/Firebase/googleSignIn";
+import SignIn from "../../routes/googleSignIn";
 
 function App() {
   return (
