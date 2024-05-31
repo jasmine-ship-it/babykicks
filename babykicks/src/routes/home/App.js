@@ -1,8 +1,11 @@
 import logo from "../../logo.svg";
 import "./App.css";
 import SignIn from "../../routes/googleSignIn";
+import { UserContext } from "../../contexts/user.context";
+import React, { useContext } from "react";
 
 function App() {
+  const { currentUser } = useContext(UserContext);
   return (
     <div className="App">
       <header className="App-header">
@@ -18,7 +21,7 @@ function App() {
         >
           Learn React
         </a>
-        {<SignIn />}
+        <div>{currentUser ? <h1>Sign Out</h1> : <SignIn />}</div>
       </header>
     </div>
   );
