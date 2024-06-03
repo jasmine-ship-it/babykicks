@@ -4,6 +4,13 @@ import { auth, provider, db } from "../utils/firebase/config";
 import { signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LoginIcon from "@mui/icons-material/Login";
+
 function SignIn() {
   const { setCurrentUser } = useContext(UserContext);
 
@@ -25,9 +32,21 @@ function SignIn() {
   };
 
   return (
-    <div>
-      <button onClick={handleClick}>Sign in with Google</button>
-    </div>
+    // <div>
+    //   <button onClick={handleClick}>Sign in with Google</button>
+    // </div>
+    <>
+      <List component="nav">
+        <ListItem key="signIn" disablePadding>
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText primary="signIn" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </>
   );
 }
 
