@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
+import { Link } from "react-router-dom";
+import SignIn from "../googleSignIn";
 
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -14,7 +16,6 @@ import PregnantWomanIcon from "@mui/icons-material/PregnantWoman";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import LoginIcon from "@mui/icons-material/Login";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -34,13 +35,8 @@ function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
-  const iconListA = [
-    <HomeIcon />,
-    <PregnantWomanIcon />,
-    <AccessTimeOutlinedIcon />,
-    <LoginIcon />,
-  ];
-  const linkListA = ["Home", "Count the kicks", "History", "Sign in"];
+  const iconListA = [<PregnantWomanIcon />, <AccessTimeOutlinedIcon />];
+  const linkListA = ["Count", "History"];
 
   const iconListB = [<AccountCircleOutlinedIcon />, <SettingsOutlinedIcon />];
   const linkListB = ["Profile", "Settings"];
@@ -64,11 +60,24 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <Divider />
-      <List>
-        {currentUser ? <h1>Sign out</h1> : ""}
+
+      <List component="nav">
+        <ListItem key="home" disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="home" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+
+      {currentUser ? <h1>Sign out</h1> : <SignIn />}
+
+      <List component="nav">
         {linkListA.map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to={text}>
               <ListItemIcon>{iconListA[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -79,7 +88,7 @@ function ResponsiveDrawer(props) {
       <List>
         {linkListB.map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to={text}>
               <ListItemIcon>{iconListB[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
