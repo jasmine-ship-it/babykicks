@@ -19,7 +19,7 @@ function SignIn() {
       const data = await signInWithPopup(auth, provider);
       setCurrentUser(data);
       localStorage.setItem("email", data.user.email);
-      console.log(data);
+      console.log(`user is signed in successfully. User is now ${data}`);
 
       await setDoc(doc(db, "user", data.user.email), {
         name: data.user.displayName,
@@ -32,9 +32,6 @@ function SignIn() {
   };
 
   return (
-    // <div>
-    //   <button onClick={handleClick}>Sign in with Google</button>
-    // </div>
     <>
       <List component="nav">
         <ListItem key="signIn" disablePadding>

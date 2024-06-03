@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 import { Link } from "react-router-dom";
 import SignIn from "../googleSignIn";
+import SignOut from "../googleSignOut";
 
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -72,7 +73,7 @@ function ResponsiveDrawer(props) {
         </ListItem>
       </List>
 
-      {currentUser ? <h1>Sign out</h1> : <SignIn />}
+      {currentUser ? <SignOut /> : <SignIn />}
 
       <List component="nav">
         {linkListA.map((text, index) => (
