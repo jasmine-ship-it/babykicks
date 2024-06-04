@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 import { Link } from "react-router-dom";
-import SignIn from "../googleSignIn";
-import SignOut from "../googleSignOut";
+import SignIn from "../../components/googleSignIn";
+import SignOut from "../../components/googleSignOut";
 
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
