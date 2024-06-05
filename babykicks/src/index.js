@@ -4,13 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import App from "../src/routes/home/App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./contexts/user.context";
+import { CountProvider } from "./contexts/count.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <App />
+        <CountProvider>
+          <App />
+        </CountProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
