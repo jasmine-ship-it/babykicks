@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/user.context";
-import { auth, provider, db } from "../utils/firebase/config";
+import { ProfileContext } from "../contexts/profile.context";
+import { auth, provider } from "../utils/firebase/config";
 import { signInWithPopup } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -13,19 +13,22 @@ import LoginIcon from "@mui/icons-material/Login";
 
 function SignIn() {
   const { setCurrentUser } = useContext(UserContext);
+  const { setCurrentProfile } = useContext(ProfileContext);
 
   const handleClick = async () => {
     try {
       const data = await signInWithPopup(auth, provider);
       setCurrentUser(data);
-      localStorage.setItem("email", data.user.email);
-      console.log(`user is signed in successfully. User is now ${data}`);
+      // localStorage.setItem("email", data.user.email);
 
-      await setDoc(doc(db, "user", data.user.email), {
-        name: data.user.displayName,
-        email: data.user.email,
-        displayPicture: data.user.photoURL,
-      });
+      if (data) {
+        const userProfileData = {
+          name: data.user.displayName,
+          email: data.user.email,
+          displayPicture: data.user.photoURL,
+        };
+        setCurrentProfile(userProfileData);
+      }
     } catch (error) {
       console.error(`error signing in with popup: ${error}`);
     }
