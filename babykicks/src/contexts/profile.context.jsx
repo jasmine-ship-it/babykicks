@@ -18,3 +18,4 @@ export const ProfileProvider = ({ children }) => {
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   );
 };
+ 
