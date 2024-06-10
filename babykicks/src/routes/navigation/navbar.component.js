@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../contexts/user.context";
 import { Link } from "react-router-dom";
-import SignIn from "../../components/googleSignIn";
-import SignOut from "../../components/googleSignOut";
+import { useGoogleAuth } from "../../hooks/useGoogleAuth";
 
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -17,6 +16,8 @@ import PregnantWomanIcon from "@mui/icons-material/PregnantWoman";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -29,35 +30,54 @@ import Typography from "@mui/material/Typography";
 
 const drawerWidth = 240;
 
-const navbarItems = [
-  {
-    to: "count",
-    label: "Count",
-    icon: <PregnantWomanIcon />,
-    renderDivider: false,
-  },
-  {
-    to: "history",
-    label: "History",
-    icon: <AccessTimeOutlinedIcon />,
-    renderDivider: true,
-  },
-  {
-    to: "profile",
-    label: "Profile",
-    icon: <AccountCircleOutlinedIcon />,
-    renderDivider: false,
-  },
-  {
-    to: "settings",
-    label: "Settings",
-    icon: <SettingsOutlinedIcon />,
-    renderDivider: false,
-  },
-];
-
 function ResponsiveDrawer(props) {
   const { currentUser } = useContext(UserContext);
+  const { handleSignInClick, handleSignOutClick } = useGoogleAuth();
+
+  const navbarItems = [
+    {
+      to: "",
+      label: "Home",
+      icon: <HomeIcon />,
+      renderDivider: false,
+      handleClick: null,
+    },
+    {
+      to: null,
+      label: currentUser ? "Sign Out" : "Sign In",
+      icon: currentUser ? <LogoutIcon /> : <LoginIcon />,
+      renderDivider: false,
+      handleClick: currentUser ? handleSignOutClick : handleSignInClick,
+    },
+    {
+      to: "count",
+      label: "Count",
+      icon: <PregnantWomanIcon />,
+      renderDivider: false,
+      handleClick: null,
+    },
+    {
+      to: "history",
+      label: "History",
+      icon: <AccessTimeOutlinedIcon />,
+      renderDivider: true,
+      handleClick: null,
+    },
+    {
+      to: "profile",
+      label: "Profile",
+      icon: <AccountCircleOutlinedIcon />,
+      renderDivider: false,
+      handleClick: null,
+    },
+    {
+      to: "settings",
+      label: "Settings",
+      icon: <SettingsOutlinedIcon />,
+      renderDivider: false,
+      handleClick: null,
+    },
+  ];
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -83,25 +103,16 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
 
-      <List component="nav">
-        <ListItem key="home" disablePadding>
-          <ListItemButton component={Link} to="/">
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="home" />
-          </ListItemButton>
-        </ListItem>
-      </List>
-
-      {currentUser ? <SignOut /> : <SignIn />}
-
       <List>
         {navbarItems.map((navbarItem) => {
           return (
             <>
               <ListItem key={navbarItem.label} disablePadding>
-                <ListItemButton component={Link} to={navbarItem.to}>
+                <ListItemButton
+                  onClick={navbarItem.handleClick}
+                  component={Link}
+                  to={navbarItem.to}
+                >
                   <ListItemIcon>{navbarItem.icon}</ListItemIcon>
                   <ListItemText primary={navbarItem.label} />
                 </ListItemButton>
