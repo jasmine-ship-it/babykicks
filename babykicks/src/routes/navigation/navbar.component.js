@@ -29,18 +29,39 @@ import Typography from "@mui/material/Typography";
 
 const drawerWidth = 240;
 
+const navbarItems = [
+  {
+    to: "count",
+    label: "Count",
+    icon: <PregnantWomanIcon />,
+    renderDivider: false,
+  },
+  {
+    to: "history",
+    label: "History",
+    icon: <AccessTimeOutlinedIcon />,
+    renderDivider: true,
+  },
+  {
+    to: "profile",
+    label: "Profile",
+    icon: <AccountCircleOutlinedIcon />,
+    renderDivider: false,
+  },
+  {
+    to: "settings",
+    label: "Settings",
+    icon: <SettingsOutlinedIcon />,
+    renderDivider: false,
+  },
+];
+
 function ResponsiveDrawer(props) {
   const { currentUser } = useContext(UserContext);
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-
-  const iconListA = [<PregnantWomanIcon />, <AccessTimeOutlinedIcon />];
-  const linkListA = ["Count", "History"];
-
-  const iconListB = [<AccountCircleOutlinedIcon />, <SettingsOutlinedIcon />];
-  const linkListB = ["Profile", "Settings"];
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -75,26 +96,20 @@ function ResponsiveDrawer(props) {
 
       {currentUser ? <SignOut /> : <SignIn />}
 
-      <List component="nav">
-        {linkListA.map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={text}>
-              <ListItemIcon>{iconListA[index]}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
       <List>
-        {linkListB.map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={text}>
-              <ListItemIcon>{iconListB[index]}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {navbarItems.map((navbarItem) => {
+          return (
+            <>
+              <ListItem key={navbarItem.label} disablePadding>
+                <ListItemButton component={Link} to={navbarItem.to}>
+                  <ListItemIcon>{navbarItem.icon}</ListItemIcon>
+                  <ListItemText primary={navbarItem.label} />
+                </ListItemButton>
+              </ListItem>
+              {navbarItem.renderDivider && <Divider />}
+            </>
+          );
+        })}
       </List>
     </div>
   );
