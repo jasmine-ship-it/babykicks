@@ -45,6 +45,7 @@ function Count() {
         updateDoc(docRef, {
           history: arrayUnion(newObject),
         });
+        setCurrentCount(0);
       } catch (error) {
         console.log(`error in updating doc ${error}`);
       }
