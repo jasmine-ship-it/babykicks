@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import LinePlot from "../components/graph.component";
 
 function History() {
   const drawerWidth = 240;
@@ -12,6 +13,7 @@ function History() {
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
           aria-label="mailbox folders"
         ></Box>
+        
         <Box
           component="main"
           sx={{
@@ -21,6 +23,8 @@ function History() {
           }}
         >
           <Typography paragraph>History page</Typography>
+          <Typography paragraph></Typography>
+          <LinePlot/>
         </Box>
       </Box>
     </>

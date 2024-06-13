@@ -19,7 +19,11 @@ export const useGoogleAuth = () => {
           name: data.user.displayName,
           email: data.user.email,
           displayPicture: data.user.photoURL,
+          history:data.user.history
         };
+        console.log(`***data given below*****`)
+        console.log(data)
+        console.log(`********`)
         setCurrentProfile(userProfileData);
       }
     } catch (error) {
