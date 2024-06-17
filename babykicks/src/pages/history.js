@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../contexts/user.context";
+import { ProfileContext } from "../contexts/profile.context";
+
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import LinePlot from "../components/graph.component";
+import SignedOutAlert from "../components/alert.component";
 
 function History() {
   const drawerWidth = 240;
+  const { currentUser } = useContext(UserContext);
+  const { currentProfile } = useContext(ProfileContext);
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -12,6 +20,7 @@ function History() {
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
           aria-label="mailbox folders"
         ></Box>
+
         <Box
           component="main"
           sx={{
@@ -21,6 +30,9 @@ function History() {
           }}
         >
           <Typography paragraph>History page</Typography>
+          <Typography paragraph></Typography>
+          {!currentUser && <SignedOutAlert />}
+          {currentProfile && <LinePlot />}
         </Box>
       </Box>
     </>

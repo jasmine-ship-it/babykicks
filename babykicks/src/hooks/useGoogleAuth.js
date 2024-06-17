@@ -1,26 +1,44 @@
 import { ProfileContext } from "../contexts/profile.context";
 import { UserContext } from "../contexts/user.context";
+import { CountContext } from "../contexts/count.context";
 import { useContext } from "react";
-import { auth, provider } from "../utils/firebase/config";
+import { auth, provider, db } from "../utils/firebase/config";
 import { signInWithPopup, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export const useGoogleAuth = () => {
   const { setCurrentUser } = useContext(UserContext);
   const { setCurrentProfile } = useContext(ProfileContext);
+  const { setCurrentCount } = useContext(CountContext);
 
   const handleSignInClick = async () => {
     try {
       const data = await signInWithPopup(auth, provider);
       setCurrentUser(data);
-      // localStorage.setItem("email", data.user.email);
 
       if (data) {
         const userProfileData = {
           name: data.user.displayName,
           email: data.user.email,
           displayPicture: data.user.photoURL,
+          history: data.user.history ?? [],
         };
+
         setCurrentProfile(userProfileData);
+      }
+      const docRef = doc(db, "user", data.user.email);
+      const docSnap = await getDoc(docRef);
+
+      if (data) {
+        if (docSnap.exists()) {
+          console.log("document history data", docSnap.data().history);
+          setCurrentProfile((prevProfile) => ({
+            ...prevProfile,
+            history: docSnap.data().history,
+          }));
+        } else {
+          console.log("no such document!");
+        }
       }
     } catch (error) {
       console.error(`error signing in with popup: ${error}`);
@@ -31,6 +49,7 @@ export const useGoogleAuth = () => {
     try {
       const data = await signOut(auth);
       setCurrentUser(null);
+      setCurrentCount(0);
       console.log(data);
       console.log(`user is signed out successfully. User is now ${data}`);
     } catch (error) {
@@ -38,8 +57,26 @@ export const useGoogleAuth = () => {
     }
   };
 
+  const fetchProfileData = async (currentProfile) => {
+    if (currentProfile && currentProfile.email) {
+      const docRef = doc(db, "user", currentProfile.email);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("document history data", docSnap.data().history);
+        const updatedProfileData = {
+          history: docSnap.data().history,
+        };
+        setCurrentProfile(updatedProfileData);
+        console.log("curentProfile", currentProfile);
+      } else {
+        console.log("no such document!");
+      }
+    }
+  };
+
   return {
     handleSignInClick,
     handleSignOutClick,
+    fetchProfileData,
   };
 };
