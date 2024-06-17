@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { CountContext } from "../contexts/count.context";
 import { ProfileContext } from "../contexts/profile.context";
 import { UserContext } from "../contexts/user.context";
@@ -8,13 +8,13 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import SignedOutAlert from "../components/alert.component";
 
-import { doc, arrayUnion, updateDoc,getDoc } from "firebase/firestore";
+import { doc, arrayUnion, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase/config";
 
 function Count() {
   const drawerWidth = 240;
   const { currentCount, setCurrentCount } = useContext(CountContext);
-  const { currentProfile,setCurrentProfile } = useContext(ProfileContext);
+  const { currentProfile, setCurrentProfile } = useContext(ProfileContext);
   const { currentUser } = useContext(UserContext);
 
   //add time context to manage time
@@ -34,28 +34,32 @@ function Count() {
 
   const handleSessionClick = async () => {
     if (currentUser) {
-        const docRef = doc(db, "user", currentProfile.email);
-        const docSnap = await getDoc(docRef);
-        if(docSnap.exists()){
-          console.log("document history data",docSnap.data().history);
-          const updatedProfileData={
-            history:docSnap.data().history
-          }
-          setCurrentProfile(updatedProfileData)
-          
-        }else{
-          console.log("no such document!")
-        }
-      
-      const start = Date.now();
-      // const docRef = doc(db, "user", currentProfile.email);
-      console.log(`********`)
-      console.log(currentProfile)
-      console.log(`********`)
+      console.log("handlesession current profile", currentProfile);
+      console.log("handlesession currentUser", currentUser);
+      const docRef = doc(db, "user", currentProfile.email);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        console.log("document history data", docSnap.data().history);
+        const updatedProfileData = {
+          ...currentProfile,
+          history: docSnap.data().history,
+        };
+        setCurrentProfile(updatedProfileData);
+      } else {
+        console.log("no such document!");
+      }
+
+      let currentTimeStamp = Date.now();
+      // console.log("currentTimeStamp",currentTimeStamp)
+      let currentDate = new Date(currentTimeStamp);
+      // console.log("currentDate",currentDate)
+      let readableDate = currentDate.toISOString().split("T")[0];
+      // let readableDate = currentDate.toISOString().split('T')[0];
+      // console.log("readableDate",readableDate)
 
       //add new object onto firestore - time duration, start time
       const newObject = {
-        time: start,
+        time: readableDate,
         count: currentCount,
       };
       try {
