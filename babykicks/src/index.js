@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./contexts/user.context";
 import { CountProvider } from "./contexts/count.context";
 import { ProfileProvider } from "./contexts/profile.context";
+import { TimeProvider } from "./contexts/timer.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
       <UserProvider>
         <ProfileProvider>
           <CountProvider>
-            <App />
+            <TimeProvider>
+              <App />
+            </TimeProvider>
           </CountProvider>
         </ProfileProvider>
       </UserProvider>
