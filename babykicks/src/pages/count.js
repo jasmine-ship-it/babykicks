@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import SignedOutAlert from "../components/alert.component";
 
-import { doc, arrayUnion, updateDoc, getDoc } from "firebase/firestore";
+import { doc, arrayUnion, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../utils/firebase/config";
 
 function Count() {
@@ -24,12 +24,24 @@ function Count() {
   //stop timer when handleSessionClick is clicked.
   //add new session context to manage status
 
-  const handleStrengthClick = () => {
-    if (currentUser) {
+  const handleStrengthUpClick = () => {
+    if (currentCount < 5) {
       setCurrentCount(currentCount + 1);
+    } else {
+      setCurrentCount(5);
     }
   };
 
+  const handleStrengthDownClick = () => {
+    if (currentUser) {
+      console.log("currentCount", currentCount);
+      if (currentCount < 1 || currentCount === 1) {
+        setCurrentCount(0);
+      } else {
+        setCurrentCount(currentCount - 1);
+      }
+    }
+  };
   const handleStartClick = () => {
     if (currentUser) {
       let currentTimeStamp = Date.now();
@@ -114,14 +126,24 @@ function Count() {
         minsDiff: timeData.minsDiff,
         secsDiff: timeData.secsDiff,
       };
-
-      try {
-        updateDoc(docRef, {
-          history: arrayUnion(newObject),
-        });
-        setCurrentCount(0);
-      } catch (error) {
-        console.log(`error in updating doc ${error}`);
+      if (docSnap.exists()) {
+        try {
+          updateDoc(docRef, {
+            history: arrayUnion(newObject),
+          });
+          setCurrentCount(0);
+        } catch (error) {
+          console.log(`error in updating doc ${error}`);
+        }
+      } else {
+        try {
+          setDoc(docRef, {
+            history: arrayUnion(newObject),
+          });
+          setCurrentCount(0);
+        } catch (error) {
+          console.log(`error in creating doc ${error}`);
+        }
       }
     }
   };
@@ -143,10 +165,17 @@ function Count() {
           }}
         >
           {!currentUser && <SignedOutAlert />}
+          <Typography paragraph>
+            Record strength and duration of baby kick. 1 = weak and 5 = strong
+          </Typography>
           {currentUser && (
             <Typography paragraph>Strength of kick {currentCount}</Typography>
           )}
-          <Button onClick={handleStrengthClick}>Strength</Button>
+          <Typography paragraph>Start Time: {timeData.startTime}</Typography>
+          <Typography paragraph>Stop Time: {timeData.stopTime}</Typography>
+
+          <Button onClick={handleStrengthUpClick}>up</Button>
+          <Button onClick={handleStrengthDownClick}>down</Button>
           <Button onClick={handleStartClick}>Start</Button>
           <Button onClick={handleStopClick}>Stop</Button>
           <Button onClick={handleSessionClick}>Save</Button>
