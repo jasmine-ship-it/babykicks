@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { ProfileContext } from "../contexts/profile.context";
 
 function Profile() {
+  const { currentProfile } = useContext(ProfileContext);
+
   const drawerWidth = 240;
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -21,6 +25,9 @@ function Profile() {
           }}
         >
           <Typography paragraph>Profile page</Typography>
+          <Typography paragraph>
+            Email address: {currentProfile.email}
+          </Typography>
         </Box>
       </Box>
     </>
