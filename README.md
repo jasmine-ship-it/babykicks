@@ -30,6 +30,6 @@ Push to the branch (git push origin feature/your-feature-name).
 Open a pull request.
 
 ## Contact
-If you have any questions or feedback, feel free to open an issue or reach out to us at your-email@example.com.
+If you have any questions or feedback, feel free to open an issue or reach out.
 
 Thank you for using Baby Kick Tracker! We hope this app helps you monitor your baby's health and development with ease.
