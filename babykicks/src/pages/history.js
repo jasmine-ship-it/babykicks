@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/user.context";
 import { ProfileContext } from "../contexts/profile.context";
+import { HistoryTable } from "../components/HistoryTable";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -32,6 +33,7 @@ function History() {
           <Typography paragraph>History page</Typography>
           <Typography paragraph></Typography>
           {!currentUser && <SignedOutAlert />}
+          {currentUser && <HistoryTable />}
           {currentProfile && <LinePlot />}
         </Box>
       </Box>
