@@ -4,7 +4,7 @@ import { CountContext } from "../contexts/count.context";
 import { useContext } from "react";
 import { auth, provider, db } from "../utils/firebase/config";
 import { signInWithPopup, signOut } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 export const useGoogleAuth = () => {
   const { setCurrentUser } = useContext(UserContext);
@@ -74,20 +74,9 @@ export const useGoogleAuth = () => {
     }
   };
 
-  const updateProfileHistory = async (currentProfile, updatedHistory) => {
-    const docRef = doc(db, "user", currentProfile.email);
-    try {
-      await setDoc(docRef, { history: updatedHistory }, { merge: true });
-      console.log("Document successfully updated!");
-    } catch (error) {
-      console.error("Error updating document: ", error);
-    }
-  };
-
   return {
     handleSignInClick,
     handleSignOutClick,
     fetchProfileData,
-    updateProfileHistory,
   };
 };
