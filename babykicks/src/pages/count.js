@@ -89,6 +89,18 @@ function Count() {
     }
   };
 
+  //Function to reser timeData
+  const resetTimeData = () => {
+    setTimeData((prevTimeData) => {
+      const keys = Object.keys(prevTimeData);
+      const newTimeData = keys.reduce((acc, key) => {
+        acc[key] = null;
+        return acc;
+      }, {});
+      return newTimeData;
+    });
+  };
+
   const handleSessionClick = async () => {
     if (currentUser) {
       console.log("handlesession current profile", currentProfile);
@@ -132,6 +144,7 @@ function Count() {
             history: arrayUnion(newObject),
           });
           setCurrentCount(0);
+          resetTimeData();
         } catch (error) {
           console.log(`error in updating doc ${error}`);
         }
@@ -141,6 +154,7 @@ function Count() {
             history: arrayUnion(newObject),
           });
           setCurrentCount(0);
+          resetTimeData();
         } catch (error) {
           console.log(`error in creating doc ${error}`);
         }
