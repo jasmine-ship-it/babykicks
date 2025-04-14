@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import { ProfileContext } from "../contexts/profile.context";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
+import { TextField } from "@mui/material";
 
 function createData(startTime, strength) {
   return { startTime, strength };
@@ -31,6 +32,12 @@ function formatDate(dateString) {
 export const HistoryTable = () => {
   const { currentProfile, setCurrentProfile } = useContext(ProfileContext);
 
+  const rows = currentProfile.history.map((item) =>
+    createData(formatDate(item.startTime), item.strength)
+  );
+  const [isEditing, setIsEditing] = useState(false);
+  const [strengthValue, setStrengthValue] = useState(rows.strength);
+  const [startTimeValue, setStartTimeValue] = useState(rows.startTime);
   const { updateProfileHistory } = useGoogleAuth();
 
   const handleDelete = async (index) => {
@@ -39,9 +46,25 @@ export const HistoryTable = () => {
     setCurrentProfile({ ...currentProfile, history: updatedHistory });
   };
 
-  const rows = currentProfile.history.map((item) =>
-    createData(formatDate(item.startTime), item.strength)
-  );
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+    console.log("handle edit function running");
+  };
+
+  const handleStrengthChange = (event) => {
+    setStrengthValue(event.target.value);
+    // console.log("the strength value is:", strengthValue);
+  };
+
+  const handleStartTimeChange = (event) => {
+    setStartTimeValue(event.target.value);
+    // console.log("the start time is:", startTimeValue);
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing(!isEditing);
+    console.log("handle edit function running");
+  };
 
   return (
     <TableContainer>
@@ -49,9 +72,9 @@ export const HistoryTable = () => {
         <TableHead>
           <TableRow>
             <TableCell>Entry</TableCell>
-            <TableCell align="right">Start Time</TableCell>
-            <TableCell align="right">Strength</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="center">Start Time</TableCell>
+            <TableCell align="center">Strength</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,9 +86,39 @@ export const HistoryTable = () => {
               <TableCell component="th" scope="row">
                 {index + 1}
               </TableCell>
-              <TableCell align="right">{row.startTime}</TableCell>
-              <TableCell align="right">{row.strength}</TableCell>
-              <TableCell align="right">
+              {isEditing ? (
+                <TableCell align="center">
+                  <TextField
+                    hiddenLabel
+                    id="filled-hidden-label-small"
+                    defaultValue={row.startTime}
+                    variant="filled"
+                    size="small"
+                    align="center"
+                    value={startTimeValue}
+                    onChange={handleStartTimeChange}
+                  />
+                </TableCell>
+              ) : (
+                <TableCell align="center">{row.startTime}</TableCell>
+              )}
+              {isEditing ? (
+                <TableCell align="center">
+                  <TextField
+                    hiddenLabel
+                    id="filled-hidden-label-small"
+                    defaultValue={row.strength}
+                    variant="filled"
+                    size="small"
+                    align="center"
+                    value={strengthValue}
+                    onChange={handleStrengthChange}
+                  />
+                </TableCell>
+              ) : (
+                <TableCell align="center">{row.strength}</TableCell>
+              )}
+              <TableCell align="center">
                 <Button
                   variant="contained"
                   color="secondary"
@@ -73,6 +126,23 @@ export const HistoryTable = () => {
                 >
                   Delete
                 </Button>
+                {!isEditing ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleSaveClick(index)}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleEdit(index)}
+                  >
+                    Save
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}

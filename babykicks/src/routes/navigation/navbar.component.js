@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Outlet } from "react-router-dom";
 import { UserContext } from "../../contexts/user.context";
 import { Link } from "react-router-dom";
 import { useGoogleAuth } from "../../hooks/useGoogleAuth";
@@ -130,6 +131,7 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
@@ -201,9 +203,14 @@ function ResponsiveDrawer(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
+             
         <Toolbar />
+      
       </Box>
+     
     </Box>
+     <Outlet />
+     </>
   );
 }
 
