@@ -7,7 +7,10 @@ import { UserProvider } from "./contexts/user.context";
 import { CountProvider } from "./contexts/count.context";
 import { ProfileProvider } from "./contexts/profile.context";
 import { TimeProvider } from "./contexts/timer.context";
+import { setupTheme } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
+const theme = setupTheme();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -16,7 +19,10 @@ root.render(
         <ProfileProvider>
           <CountProvider>
             <TimeProvider>
-              <App />
+              <ThemeProvider theme={theme}>
+                <CssBaseline enableColorScheme />
+                <App />
+              </ThemeProvider>
             </TimeProvider>
           </CountProvider>
         </ProfileProvider>
