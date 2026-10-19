@@ -23,10 +23,7 @@ function Home() {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
-          <Typography
-            paragraph
-            sx={{ fontFamily: "Abril Fatface", fontSize: "2.5rem" }}
-          >
+          <Typography paragraph sx={{ fontSize: "2.5rem" }}>
             Feel Every Little Moment
           </Typography>
           <Typography paragraph>
