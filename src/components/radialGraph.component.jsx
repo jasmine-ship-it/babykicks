@@ -63,14 +63,24 @@ const RadialPlot = ({ width = 400 }) => {
   ];
 
   if (totalKicks === 0) {
-    return <Typography paragraph>No kicks recorded today yet.</Typography>;
+    return (
+      <Typography paragraph align="center">
+        No kicks recorded today yet.
+      </Typography>
+    );
   }
 
   return (
     <svg
-      width="100%"
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
-      style={{ maxWidth: width, height: "auto" }}
+      // Fill the available width, but never taller than most of the screen
+      style={{
+        display: "block",
+        margin: "0 auto",
+        width: "100%",
+        maxWidth: "min(100%, 80vh)",
+        height: "auto",
+      }}
       role="img"
       aria-label="Today's baby kicks by hour of the day"
     >
