@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  # Stop CRA from failing the build on lint warnings
+  CI = "false"
+
+# Send every route to index.html so React Router handles it
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
