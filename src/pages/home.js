@@ -9,7 +9,6 @@ function Home() {
   const { currentUser } = useContext(UserContext);
   return (
     <>
-
       <Box sx={{ display: "flex" }}>
         <Box
           component="nav"
@@ -54,9 +53,6 @@ function Home() {
           </Typography>
           {currentUser && (
             <>
-              <Typography variant="h6" sx={{ mt: 2 }}>
-                Today's kicks by time of day
-              </Typography>
               <RadialPlot />
             </>
           )}
