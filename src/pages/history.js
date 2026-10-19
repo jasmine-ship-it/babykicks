@@ -5,7 +5,7 @@ import { HistoryTable } from "../components/HistoryTable";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import LinePlot from "../components/graph.component";
+import RadialPlot from "../components/radialGraph.component";
 import SignedOutAlert from "../components/alert.component";
 
 function History() {
@@ -34,7 +34,6 @@ function History() {
           <Typography paragraph></Typography>
           {!currentUser && <SignedOutAlert />}
           {currentUser && <HistoryTable />}
-          {currentProfile && <LinePlot />}
         </Box>
       </Box>
     </>

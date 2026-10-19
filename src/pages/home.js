@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { UserContext } from "../contexts/user.context";
+import RadialPlot from "../components/radialGraph.component";
 
 function Home() {
   const drawerWidth = 240;
+  const { currentUser } = useContext(UserContext);
   return (
     <>
-
       <Box sx={{ display: "flex" }}>
         <Box
           component="nav"
@@ -21,10 +23,7 @@ function Home() {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
-          <Typography
-            paragraph
-            sx={{ fontFamily: "Abril Fatface", fontSize: "2.5rem" }}
-          >
+          <Typography paragraph sx={{ fontSize: "2.5rem" }}>
             Feel Every Little Moment
           </Typography>
           <Typography paragraph>
@@ -49,6 +48,11 @@ function Home() {
             everything was normal before — contact your midwife or maternity
             unit. Never hesitate. You know your baby best.
           </Typography>
+          {currentUser && (
+            <>
+              <RadialPlot />
+            </>
+          )}
         </Box>
       </Box>
     </>
